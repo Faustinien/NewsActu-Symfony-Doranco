@@ -20,7 +20,7 @@ class ArticleFormType extends AbstractType
             ->add('title', TextType::class, [
                 'label' => 'Titre de l\'article',
             ])
-            ->add('subtitle', Textype::class, [
+            ->add('subtitle', TextType::class, [
                 'label' => 'Sous-titre',
             ])
             ->add('content', TextareaType::class, [
