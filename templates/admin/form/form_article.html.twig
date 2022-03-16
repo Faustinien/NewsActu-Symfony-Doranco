@@ -5,7 +5,11 @@
 	<div class="row">
 		<div class="col-12 mx-auto">
 
-			<h1 class="text-center">Ajouter un article</h1>
+			{% if article is defined %}
+				<h1 class="text-center">Modifier un article</h1>
+			{% else %}
+				<h1 class="text-center">Ajouter un article</h1>
+			{% endif %}
 
 		</div>
 	</div>
@@ -46,13 +50,23 @@
 
 			</div>
 
-			<button type="submit" class="d-block col-2 mx-auto btn btn-warning mb-3
-																													">Publier</button>
-
+			{% if article is defined %}
+				<button type="submit" class="d-block col-2 mx-auto btn btn-warning mb-3
+																													">Modifier</button>
+			{% else %}
+				<button type="submit" class="d-block col-2 mx-auto btn btn-warning mb-3">Publier</button>
+			{% endif %}
 
 			{{ form_end(form) }}
 		</div>
 	</div>
 
+	{% if artcle is defined and article.photo is not null %}
 
+		<div class="col-6">
+			<img src="{{ asset('uploads/') ~ article.photo }}" alt="" class="img-fluid">
+		</div>
+
+
+	{% endif %}
 {% endblock %}
