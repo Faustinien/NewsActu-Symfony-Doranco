@@ -1,6 +1,5 @@
-{% for label,  messages in app.flashes  %}
+{% for label, messages in app.flashes %}
 	{% for message in messages %}
-
 
 		<div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
 			{% if label == 'success' %}
@@ -9,16 +8,17 @@
 				</span>
 			{% else %}
 				<span class="alert-inner--icon">
-					<i class="fa fa-thumbs-down"></i>
+					<i class="fa fa-exclamation-triangle"></i>
 				</span>
 			{% endif %}
+
 			<span class="alert-inner--text">
 				<strong>{{ label | title }}
 					:
 				</strong>
-				{{ message | raw }}</span>
+				{{ message | raw }}
+			</span>
 		</div>
-
 
 	{% endfor %}
 {% endfor %}
