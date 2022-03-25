@@ -3,8 +3,17 @@
 {% block body %}
 
 	<div class="row mt-3">
+		{% include 'include/_flashes.html.twig' %}
+	</div>
 
-		{% include "include/_flashes.html.twig" %}
+	<div class="row">
+
+
+		<div class="col-12 bg-info p-4 rounded">
+			Total des commentaires créés :
+			{{ commentaries | length }}
+		</div>
+
 	</div>
 
 	<div class="row">
@@ -23,18 +32,21 @@
 					</tr>
 				</thead>
 				<tbody>
+					{% set countIn = 0 %}
+					{% set countOut = 0 %}
 
 					{% if commentaries is not empty %}
 						{% for commentary in commentaries %}
 							{% if commentary.deletedAt is null %}
+								{%  set countIn = countIn + 1 %}
 
 								<tr>
 									<td>{{ commentary.comment | slice(0,15) }}</td>
 									<td>{{ commentary.article.title | slice(0, 10) }}</td>
 									<td>{{ commentary.createdAt | date('d/m/Y') }}</td>
 									<td>
-										<a href="{{ path('soft_delete_commentary', {'id': commentary.id}) }}" class="btn btn-info" title="Modifier mon profil">
-											<i class="fa fa-restore"></i>
+										<a href="{{ path('soft_delete_commentary', {'id': commentary.id}) }}" class="btn btn-info" title="Archiver mon commentaire">
+											<i class="fa fa-trash"></i>
 										</a>
 									</td>
 								</tr>
@@ -45,6 +57,9 @@
 
 				</tbody>
 			</table>
+
+			<p>Total :
+				{{ countIn }}</p>
 		</div>
 		{# END .col-6 #}
 
@@ -66,14 +81,15 @@
 					{% if commentaries is not empty %}
 						{% for commentary in commentaries %}
 							{% if commentary.deletedAt is not null %}
+								{%  set countOut = countOut + 1 %}
 
 								<tr>
 									<td>{{ commentary.comment | slice(0,15) }}</td>
 									<td>{{ commentary.article.title | slice(0, 10) }}</td>
 									<td>{{ commentary.createdAt | date('d/m/Y') }}</td>
 									<td>
-										<a href="{{ path('soft_delete_commentary', {'id': commentary.id}) }}" class="btn btn-info" title="Modifier mon profil">
-											<i class="fa fa-trash"></i>
+										<a href="{{ path('restore_commentary', {'id': commentary.id}) }}" class="btn btn-info" title="Restaurer mon commentaire">
+											<i class="fa fa-trash-restore"></i>
 										</a>
 									</td>
 								</tr>
@@ -84,7 +100,8 @@
 
 				</tbody>
 			</table>
-
+			<p>Total :
+				{{ countOut }}</p>
 		</div>
 
 	</div>

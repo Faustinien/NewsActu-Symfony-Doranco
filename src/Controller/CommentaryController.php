@@ -69,7 +69,7 @@ class CommentaryController extends AbstractController
     //                             Les paramètres attendus de la route pour faire un redirectoRoute() peuvent ne pas être accessibles.
     //              Avantage:~~~~~~~la redirection sera STATIQUE, tous les utilisateurs seront redirigés au même endroits.
 
-    
+
 
     //   2ème FAÇON => Inconvénient :  La redirection se fera en fonction de l'url de provenance de la requête, à savoir si vous utilisez cette action à plusieurs endroits différents de votre site, l'utilisateur sera redirigé ailleurs que ce que vous avez décidé.
     //                 Avantage:~~~~~~~~ la redirection devient DYNAMIQUE. (elle changera en fonctionde la provenance de la requête)
@@ -117,5 +117,22 @@ class CommentaryController extends AbstractController
         # ette clé contient l'URL de provenance de la requête ($request).
         return $this->redirect($request->server->get('HTTP_REFERER'));
         #====================================================================#
+    }
+
+
+    /**
+     * @Route("/restaurer-un-commentaire_{id}", name="restore_commentary", methods={"GET"})
+     */
+    public function restoreCommentary(Commentary $commentary, EntityManagerInterface $entityManager): Response
+    {
+
+        // dd($dateCreate);
+        $commentary->setDeletedAt();
+
+        $entityManager->persist($commentary);
+        $entityManager->flush();
+
+        $this->addFlash('success', "Le commentaire a bien été restauré");
+        return $this->redirectToRoute('show_user_commentaries');
     }
 }
